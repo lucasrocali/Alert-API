@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170829194519) do
+ActiveRecord::Schema.define(version: 20170930055720) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -44,6 +44,79 @@ ActiveRecord::Schema.define(version: 20170829194519) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_api_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_api_users_on_reset_password_token", unique: true
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.string "image_url"
+    t.integer "category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_categories_on_category_id"
+  end
+
+  create_table "category_preferences", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_category_preferences_on_category_id"
+    t.index ["user_id"], name: "index_category_preferences_on_user_id"
+  end
+
+  create_table "event_tags", force: :cascade do |t|
+    t.integer "event_id"
+    t.integer "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_tags_on_event_id"
+    t.index ["tag_id"], name: "index_event_tags_on_tag_id"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.integer "location_id"
+    t.integer "category_id"
+    t.integer "importance"
+    t.string "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_events_on_category_id"
+    t.index ["location_id"], name: "index_events_on_location_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.integer "user_id"
+    t.float "lat"
+    t.float "lon"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_locations_on_user_id"
+  end
+
+  create_table "strengths", force: :cascade do |t|
+    t.integer "event_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_strengths_on_event_id"
+    t.index ["user_id"], name: "index_strengths_on_user_id"
+  end
+
+  create_table "tag_preferences", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tag_id"], name: "index_tag_preferences_on_tag_id"
+    t.index ["user_id"], name: "index_tag_preferences_on_user_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.integer "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tag_id"], name: "index_tags_on_tag_id"
   end
 
   create_table "user_infos", force: :cascade do |t|
