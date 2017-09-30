@@ -1,5 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Location, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it { should belong_to(:user) }
+  it { should have_one(:event).dependent(:destroy) }
+  it { should have_one(:notification).dependent(:destroy) }
 end

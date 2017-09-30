@@ -27,9 +27,7 @@ class V1::UsersController < ApplicationController
       :password,
       :password_confirmation,
       user_info_attributes: [
-        :name, 
-        :birthday, 
-        :address
+        :name
       ]
     )
 

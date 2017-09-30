@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :location do
-    user nil
-    lat 1.5
-    lon 1.5
+    user_id { Faker::Number.number(1) }
+    lat { Faker::Address.latitude }
+    lon { Faker::Address.longitude }
   end
 end

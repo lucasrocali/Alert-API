@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :tag_preference do
-    user nil
-    tag nil
+    user_id { Faker::Number.number(1) }
+    tag_id { Faker::Number.number(1) }
   end
 end
