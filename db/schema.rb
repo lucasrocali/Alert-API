@@ -47,11 +47,13 @@ ActiveRecord::Schema.define(version: 20170930193828) do
   end
 
   create_table "categories", force: :cascade do |t|
+    t.integer "api_user_id"
     t.string "name"
     t.string "image_url"
     t.integer "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["api_user_id"], name: "index_categories_on_api_user_id"
     t.index ["category_id"], name: "index_categories_on_category_id"
   end
 
@@ -122,10 +124,12 @@ ActiveRecord::Schema.define(version: 20170930193828) do
   end
 
   create_table "tags", force: :cascade do |t|
+    t.integer "api_user_id"
     t.string "name"
     t.integer "tag_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["api_user_id"], name: "index_tags_on_api_user_id"
     t.index ["tag_id"], name: "index_tags_on_tag_id"
   end
 

@@ -16,7 +16,9 @@ class V1::EventsController < ApplicationController
   # POST /events
   def create
     # create events belonging to current user
-    @event = Event.create!(event_params)
+    @event = Event.new(event_params)
+    @event.user_id = current_user.id
+    @event.save!
     json_response(@event, :created)
   end
 
@@ -36,7 +38,7 @@ class V1::EventsController < ApplicationController
 
   # remove `user_id` from list of permitted parameters
   def event_params
-    params.permit(:location_id, :category_id, :importance, :comment)
+    params.permit(:user_id, :lat, :lon, :category_id, :importance, :comment)
   end
 
   def set_event

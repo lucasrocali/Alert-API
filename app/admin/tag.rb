@@ -1,5 +1,5 @@
 ActiveAdmin.register Tag do
 
-permit_params :tag_id, :name
+permit_params :api_user_id, :tag_id, :name
 
 end

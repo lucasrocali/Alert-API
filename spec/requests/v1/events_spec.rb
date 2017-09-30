@@ -4,10 +4,11 @@ RSpec.describe 'events API', type: :request do
   # add events owner
   let(:api_user) { create(:api_user) }
   let!(:user) { create(:user, api_user_id: api_user.id) }
-  let!(:location) { create(:location, user_id: user.id) }
-  let!(:categories) { create_list(:category, 10) }
+  let(:location) { build(:location, user_id: user.id) }
+  let(:existing_location) { create(:location, user_id: user.id) }
+  let!(:categories) { create_list(:category, 10, api_user_id: api_user.id) }
   let(:category) { categories.first }
-  let!(:events) { create_list(:event, 10, location_id: location.id, category_id: category.id) }
+  let!(:events) { create_list(:event, 10, location_id: existing_location.id, category_id: category.id) }
   let(:event_id) { events.first.id }
   # authorize request
   let(:headers) { valid_headers }
@@ -56,14 +57,14 @@ RSpec.describe 'events API', type: :request do
   describe 'POST /events' do
      let(:valid_attributes) do
       # send json payload
-      { location_id: location.id, category_id: category.id, importance: 1, comment: 'comment'}.to_json
+      { lat: location.lat, lon: location.lon, category_id: category.id, importance: 1, comment: 'comment'}.to_json
     end
 
     context 'when request is valid' do
       before { post '/events', params: valid_attributes, headers: headers }
 
       it 'creates a event' do
-        expect(json['location']['id']).to eq(location.id)
+        expect(json['category']['id']).to eq(category.id)
       end
 
       it 'returns status code 201' do

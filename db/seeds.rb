@@ -13,5 +13,13 @@
 	User.create!(id:1, api_user_id:1, email: 'rocali@outlook.com',password: 'password')
 	UserInfo.create!(user_id: 1, name: 'Lucas Rocali')
 
+	20.times { FactoryGirl.create(:user) }
+	100.times { FactoryGirl.create(:location) }
+
+	Category.create!(api_user_id:1, name:"Incendio")
+	Category.create!(api_user_id:1, name:"Alagamento")
+	Category.create!(api_user_id:1, name:"Chuva forte")
+
+
 	
 # end
