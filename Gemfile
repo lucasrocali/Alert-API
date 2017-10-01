@@ -20,6 +20,7 @@ gem 'active_model_serializers', '~> 0.10.0'
 gem 'underscore-rails'
 gem 'gmaps4rails'
 gem 'geokit-rails'
+gem 'active_admin_flat_skin'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'

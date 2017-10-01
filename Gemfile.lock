@@ -24,6 +24,7 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_admin_flat_skin (0.1.2)
     active_model_serializers (0.10.6)
       actionpack (>= 4.1, < 6)
       activemodel (>= 4.1, < 6)
@@ -240,6 +241,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_admin_flat_skin
   active_model_serializers (~> 0.10.0)
   activeadmin
   bcrypt (~> 3.1.7)

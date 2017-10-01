@@ -8,18 +8,34 @@
 # if Rails.env.development?
 
 	#Acaopamento
-	ApiUser.create!(id:1, email: 'admin@example.com', password: 'password', password_confirmation: 'password', api_name: 'Acaopamento', user_is_element: false) 
+	apiDisasterUser = ApiUser.create!(email: 'disaster@example.com', password: 'password', password_confirmation: 'password', api_name: 'Disaster Alert') 
+	apiAlertUser = ApiUser.create!(email: 'price@example.com', password: 'password', password_confirmation: 'password', api_name: 'Price Alert') 
 
-	User.create!(id:1, api_user_id:1, email: 'rocali@outlook.com',password: 'password')
-	UserInfo.create!(user_id: 1, name: 'Lucas Rocali')
+	# User.create!(id:1, api_user_id:1, email: 'rocali@outlook.com',password: 'password')
+	# UserInfo.create!(user_id: 1, name: 'Lucas Rocali')
 
-	20.times { FactoryGirl.create(:user) }
-	100.times { FactoryGirl.create(:location) }
+	20.times { 
+		user = FactoryGirl.create(:user, api_user_id: apiDisasterUser.id) 
 
-	Category.create!(api_user_id:1, name:"Incendio")
-	Category.create!(api_user_id:1, name:"Alagamento")
-	Category.create!(api_user_id:1, name:"Chuva forte")
+		10.times { 
+			FactoryGirl.create(:location, user_id: user.id) 
+		}
+	}
 
+	10.times { 
+		user = FactoryGirl.create(:user, api_user_id: apiAlertUser.id) 
 
+		20.times { 
+			FactoryGirl.create(:location, user_id: user.id) 
+		}
+	}
+	
+
+	Category.create!(api_user_id: apiDisasterUser.id, name:"Incendio")
+	Category.create!(api_user_id: apiDisasterUser.id, name:"Alagamento")
+	Category.create!(api_user_id: apiDisasterUser.id, name:"Chuva forte")
+
+	Category.create!(api_user_id: apiAlertUser.id, name:"Cerveja")
+	Category.create!(api_user_id: apiAlertUser.id, name:"Cerveja Importada")
 	
 # end

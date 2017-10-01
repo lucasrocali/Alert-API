@@ -28,10 +28,10 @@ class Event < ApplicationRecord
         end
       end
 
-      puts 'manage_event_tags_and_notifications'
-      puts self.location
+      # puts 'manage_event_tags_and_notifications'
+      # puts self.location
       @nearlocations = Location.where.not(:id => self.location.id).within(10, :origin => self.location).group(:user_id)
-      puts @nearlocations.to_json
+      # puts @nearlocations.to_json
       @nearlocations.each do |location|
         Notification.create!(:location_id => location.id,:event_id => self.id)
       end

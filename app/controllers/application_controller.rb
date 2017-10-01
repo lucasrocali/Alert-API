@@ -10,7 +10,6 @@ class ApplicationController < ActionController::Base
 
   # Check for valid request token and return user
   def authorize_request
-    puts params
     if params['ApiToken'].present? && params['controller'] == 'v1/static_pages'
       @current_user = nil
     else
