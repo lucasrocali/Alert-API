@@ -38,7 +38,7 @@ class V1::EventsController < ApplicationController
 
   # remove `user_id` from list of permitted parameters
   def event_params
-    params.permit(:user_id, :lat, :lon, :category_id, :importance, :comment)
+    params.permit(:user_id, :lat, :lon, :category_id, :importance, :comment, :tag_ids => [])
   end
 
   def set_event
