@@ -8,6 +8,12 @@ Rails.application.routes.draw do
   
   scope module: :v1, constraints: ApiVersion.new('v1', true) do
   	resources :events
+  	resources :locations
+    resources :categories
+    resources :tags
+    resources :category_preferences
+    resources :tag_preferences
+    resources :strengths
   end
 
   post 'auth/login', to: 'v1/authentication#authenticate'

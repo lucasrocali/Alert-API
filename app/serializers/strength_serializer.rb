@@ -1,3 +1,3 @@
 class StrengthSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :up_down
 end

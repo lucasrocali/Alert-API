@@ -3,9 +3,11 @@ class Event < ApplicationRecord
 
   belongs_to :location
   belongs_to :category
-  has_many :event_tags, dependent: :destroy
-  has_many :notifications, dependent: :destroy
-  has_many :strengths, dependent: :destroy
+  has_many :event_tags
+  has_many :notifications
+  has_many :strengths
+
+  validates_presence_of :importance
 
   before_validation :manage_location
 
