@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   devise_for :api_users, ::ActiveAdmin::Devise.config
   ::ActiveAdmin.routes(self)
 
+  get 'v1/static_pages/map'
+
   # scope module: :v2, constraints: ApiVersion.new('v2') do
 
   # end

@@ -11,7 +11,7 @@ class Event < ApplicationRecord
 
   before_validation :manage_location
 
-  after_create :set_event_tags
+  after_create :manage_event_tags_and_notifications
 
   private
     def manage_location
@@ -21,11 +21,19 @@ class Event < ApplicationRecord
       	end
     end
 
-    def set_event_tags
+    def manage_event_tags_and_notifications
       if tag_ids.present?
         tag_ids.each do |tag_id|
           EventTag.create!(event_id: self.id, tag_id: tag_id)
         end
+      end
+
+      puts 'manage_event_tags_and_notifications'
+      puts self.location
+      @nearlocations = Location.where.not(:id => self.location.id).within(10, :origin => self.location).group(:user_id)
+      puts @nearlocations.to_json
+      @nearlocations.each do |location|
+        Notification.create!(:location_id => location.id,:event_id => self.id)
       end
     end
 end

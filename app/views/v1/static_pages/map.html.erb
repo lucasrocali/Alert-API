@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="//maps.google.com/maps/api/js?key=AIzaSyCrlvfu9_cs05zNvm8vziVB9eciyu0r6KA"></script>
+    <script src="//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <%= javascript_include_tag "application" %>
+    <%= yield :scripts %>
+  </head>
+  <body>
+    <div style='width: 100%;'>
+      <div id="map" style='width: 100%; height: 500px;'></div>
+    </div>
+    <h2>Notificações</h2>
+    <table class=" table table-stripped">
+    <thead>
+      <tr>
+        <th>Notification Id</th>
+        <th>Event Id</th>
+        <th>Event Category</th>
+        <th>Event Created By</th>
+        <th>Notific Location Id</th>
+        <th>Alert to</th>
+        <th>Distance from event</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @notifications.each do |notific| %>
+        <tr>
+          <td><%= notific.id %></td>
+          <td><%= notific.event.id %></td>
+          <td><%= notific.event.category.name %></td>
+          <td><%= notific.event.location.user.user_info.name %></td>
+          <td><%= notific.location.id %></td>
+          <td><%= notific.location.user.user_info.name %></td>
+          <td><%= notific.location.distance_to(notific.event.location).round(2) %></td>
+          
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+    <script type="text/javascript">
+
+  handler = Gmaps.build('Google');
+  handler.buildMap({
+    provider: {
+      disableDefaultUI: true,
+      zoomControl: true,
+      zoom: 3,
+
+      // The latitude and longitude to center the map (always required)
+    
+      // How you would like to style the map.
+      // This is where you would paste any style found on Snazzy Maps.
+      styles: [ {   "featureType":"landscape",    "stylers":[     {       "hue":"#FFBB00"     },      {       "saturation":43.400000000000006     },      {       "lightness":37.599999999999994      },      {       "gamma":1     }   ] },  {   "featureType":"road.highway",   "stylers":[     {       "hue":"#FFC200"     },      {       "saturation":-61.8      },      {       "lightness":45.599999999999994      },      {       "gamma":1     }   ] },  {   "featureType":"road.arterial",    "stylers":[     {       "hue":"#FF0300"     },      {       "saturation":-100     },      {       "lightness":51.19999999999999     },      {       "gamma":1     }   ] },  {   "featureType":"road.local",   "stylers":[     {       "hue":"#FF0300"     },      {       "saturation":-100     },      {       "lightness":52      },      {       "gamma":1     }   ] },  {   "featureType":"water",    "stylers":[     {       "hue":"#0078FF"     },      {       "saturation":-13.200000000000003      },      {       "lightness":2.4000000000000057      },      {       "gamma":1     }   ] },  {   "featureType":"poi",    "stylers":[     {       "hue":"#00FF6A"     },      {       "saturation":-1.0989010989011234      },      {       "lightness":11.200000000000017      },      {       "gamma":1     }   ] }]
+    },
+    internal: {id: 'map'}}, function(){
+      var json_array_loc = <%=raw @hashl.to_json %>
+      var json_array = json_array_loc.concat(<%=raw @hashe.to_json %>)
+      console.log(json_array);
+      var markers = handler.addMarkers(json_array);
+      _.each(json_array, function(json, index){
+        json.marker = markers[index];
+      });
+    circle = <%=raw @circles.to_json %>;
+    circle_options = { strokeColor:"#0000FF",strokeOpacity: 1, strokeWeight: 2, fillColor: 'transparent' }
+    handler.addCircles(circle, circle_options);
+    handler.bounds.extendWith(markers);
+    handler.fitMapToBounds();
+  });
+
+    // handler = Gmaps.build('Google');
+    // handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+    //   markers = handler.addMarkers(<%=raw @hash.to_json %>);
+    //   handler.bounds.extendWith(markers);
+    //   handler.fitMapToBounds();
+    // });
+
+
+  </script>
+  </body>
