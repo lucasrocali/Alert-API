@@ -32,8 +32,10 @@ class Event < ApplicationRecord
       # puts self.location
       @nearlocations = Location.where.not(:id => self.location.id).within(10, :origin => self.location).group(:user_id)
       # puts @nearlocations.to_json
-      @nearlocations.each do |location|
-        Notification.create!(:location_id => location.id,:event_id => self.id)
+      if @nearlocations.present?
+        @nearlocations.each do |location|
+          Notification.create!(:location_id => location.id,:event_id => self.id)
+        end
       end
     end
 end
