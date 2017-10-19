@@ -1,3 +1,3 @@
 class EventTagSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :tag
 end

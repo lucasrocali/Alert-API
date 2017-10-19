@@ -1,5 +1,5 @@
 class Event < ApplicationRecord
-  attr_accessor :user_id, :lat, :lon, :tag_ids
+  attr_accessor :user_id, :lat, :lon, :tag_ids, :up_count, :down_count, :tags
 
   belongs_to :location
   belongs_to :category
@@ -12,6 +12,18 @@ class Event < ApplicationRecord
   before_validation :manage_location
 
   after_create :manage_event_tags_and_notifications
+
+  def up_count
+    return strengths.where(up_down: 1).count
+  end
+
+  def down_count
+    return strengths.where(up_down: 0).count
+  end
+
+  def tags
+    return event_tags
+  end
 
   private
     def manage_location
